@@ -7,13 +7,21 @@ namespace ClientClassNameSpace
 {
     public class ClientClass
     {
-        private string _serverAddress;
+        private readonly string _serverAddress;
+        private readonly int _port;
+
+        public ClientClass(string serverAddres, int port)
+        {
+            _serverAddress = serverAddres;
+            _port = port;
+        }
 
         public void Connect()
         {
-            Int32 port = 13000;
-            TcpClient client = new TcpClient(_serverAddress, port);
+            TcpClient client = new TcpClient(_serverAddress, _port);
             NetworkStream stream = client.GetStream();
         }
+
+    
     }
 }
