@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Threading;
 using System;
 using System.Net.Sockets;
@@ -11,6 +12,7 @@ namespace ClientClassNameSpace
         private NetworkStream _stream;
         private Thread _listeningThread;
         private bool _isListening;
+        private TcpClient _client;
 
         public ClientClass(string serverAddres, int port)
         {
@@ -20,8 +22,8 @@ namespace ClientClassNameSpace
 
         public void Connect()
         {
-            TcpClient client = new TcpClient(_serverAddress, _port);
-            _stream = client.GetStream();
+            _client = new TcpClient(_serverAddress, _port);
+            _stream = _client.GetStream();
             StartListening();
         }
 
@@ -54,6 +56,14 @@ namespace ClientClassNameSpace
         private void StopListening()
         {
             _isListening = false;
+        }
+
+        public void Disconnect()
+        {
+            StopListening();
+            _stream.Close();
+            _listeningThread.Abort();
+            _client.Close();
         }
     }
 }
