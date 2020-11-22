@@ -16,9 +16,9 @@ namespace Client
         }
 
         //Functions:
-        //Connect()
-        //SendMessage()
-        //StartListening()
+        //Connect() V
+        //SendMessage() V
+        //(priv) StartListening()
         // + OnMessageReceived
         //StopListening()
         //Disconnect();
