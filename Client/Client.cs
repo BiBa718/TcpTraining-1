@@ -10,6 +10,7 @@ namespace ClientClassNameSpace
         private readonly int _port;
         private NetworkStream _stream;
         private Thread _listeningThread;
+        private bool _isListening;
 
         public ClientClass(string serverAddres, int port)
         {
@@ -34,10 +35,11 @@ namespace ClientClassNameSpace
 
         private void StartListening()
         {
+            _isListening = true;
+
             _listeningThread = new Thread(() =>
             {
-                //todo fix infinity loop
-                while (true)
+                while (_isListening)
                 {
                     byte[] data = new byte[256];
                     Int32 bytes = _stream.Read(data, 0, data.Length);
@@ -47,6 +49,11 @@ namespace ClientClassNameSpace
             });
 
             _listeningThread.Start();
+        }
+
+        private void StopListening()
+        {
+            _isListening = false;
         }
     }
 }

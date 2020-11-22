@@ -18,16 +18,16 @@ namespace Client
             };
 
             client.Connect();
-            
+
             client.SendMessages("Message to server");
         }
 
         //Functions:
         //Connect() V
         //SendMessage() V
-        //(priv) StartListening()
-        // + OnMessageReceived
-        //StopListening()
+        //(priv) StartListening() V
+        // + OnMessageReceived V
+        //(priv) StopListening() V
         //Disconnect();
 
         static void Connect(String server, String message)
