@@ -9,6 +9,7 @@ namespace Listener
     {
         static void Main(string[] args)
         {
+            #region class Listener
             TcpListener server = null;
             try
             {
@@ -21,7 +22,7 @@ namespace Listener
 
                 // Start listening for client requests.
                 server.Start();
-
+                
                 // Buffer for reading data
                 Byte[] bytes = new Byte[256];
                 String data = null;
@@ -35,8 +36,11 @@ namespace Listener
                     // You could also use server.AcceptSocket() here.
                     TcpClient client = server.AcceptTcpClient();
                     Console.WriteLine("Connected!");
+                    #endregion class Listener part 1
 
+                    #region User
                     Thread clientThread = new Thread(() => {
+                        Byte[] bytes = new Byte[256];
                         data = null;
 
                         // Get a stream object for reading and writing
@@ -90,6 +94,9 @@ namespace Listener
                     });
 
                     clientThread.Start();
+                    #endregion class  User
+                    
+                    #region class Listner part 2
                 }
             }
             catch (SocketException e)
@@ -104,6 +111,7 @@ namespace Listener
 
             Console.WriteLine("\nHit enter to continue...");
             Console.Read();
+            #endregion class Listener part 2
         }
     }
 }
