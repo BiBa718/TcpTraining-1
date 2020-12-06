@@ -9,9 +9,9 @@ namespace Listener
     {
         // Listener Functions:
         // Start()
-        // StartWaitingForConnections()
-        // (priv)AddNewConection()
-        // StopWaitingForConnections()
+        // (priv) StartWaitingForConnections()
+        // (priv) AddNewConection()
+        // (priv) StopWaitingForConnections()
         // Stop()
 
         static void Main(string[] args)
