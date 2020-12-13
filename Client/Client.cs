@@ -20,6 +20,7 @@ namespace ClientClassNameSpace
             _port = port;
         }
 
+//Можно попробывать создать отдельный метод, который в качестве параметра принимает client
         public void Connect()
         {
             _client = new TcpClient(_serverAddress, _port);
