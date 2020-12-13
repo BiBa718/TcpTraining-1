@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using ClientClassNameSpace;
 
 namespace ListenerNamespace
 {
@@ -41,18 +42,16 @@ namespace ListenerNamespace
 
                 // Enter the listening loop.
                 while (true)
-                {
-                    Console.Write("Waiting for a connection... ");
-
-                    // Perform a blocking call to accept requests.
-                    // You could also use server.AcceptSocket() here.
-                    TcpClient client = server.AcceptTcpClient();
-                    Console.WriteLine("Connected!");
+                {                   
                     #endregion class Listener StartWaitingForConnections()
 
                     #endregion class Listener part 1
 
                     #region User
+                    TcpClient client = server.AcceptTcpClient();
+                    ClientClass user = new ClientClass("127.0.0.1", port);
+                    user.Connect();
+
                     Thread clientThread = new Thread(() => {
                         Byte[] bytes = new Byte[256];
                         String data = null;
