@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace Listener
+namespace ListenerNamespace
 {
     class Program
     {
@@ -14,7 +14,13 @@ namespace Listener
         // (priv) StopWaitingForConnections()
         // Stop()
 
-        static void Main(string[] args)
+        static void Main()
+        {
+            Listener listener = new Listener();
+            listener.Start();
+        }
+
+        static void LastMain(string[] args)
         {
             #region class Listener part 1
             #region class Listener Start()
@@ -33,10 +39,6 @@ namespace Listener
                 #endregion class Listener Start()
                 #region class Listener StartWaitingForConnections()
 
-                // Buffer for reading data
-                Byte[] bytes = new Byte[256];
-                String data = null;
-
                 // Enter the listening loop.
                 while (true)
                 {
@@ -53,7 +55,7 @@ namespace Listener
                     #region User
                     Thread clientThread = new Thread(() => {
                         Byte[] bytes = new Byte[256];
-                        data = null;
+                        String data = null;
 
                         // Get a stream object for reading and writing
                         NetworkStream stream = client.GetStream();
