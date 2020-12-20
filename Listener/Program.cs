@@ -8,17 +8,19 @@ namespace ListenerNamespace
 {
     class Program
     {
-        // Listener Functions:
-        // Start()
-        // (priv) StartWaitingForConnections()
-        // (priv) AddNewConection()
-        // (priv) StopWaitingForConnections()
-        // Stop()
+        // Listener Functions: V
+        // Start() V
+        // (priv) StartWaitingForConnections() V
+        // (priv) AddNewConection() V
+        // (priv) StopWaitingForConnections() V
+        // Stop() V
 
         static void Main()
         {
             Listener listener = new Listener();
             listener.Start();
+            Console.ReadLine();
+            listener.Stop();
         }
 
         static void LastMain(string[] args)
@@ -49,8 +51,6 @@ namespace ListenerNamespace
 
                     #region User
                     TcpClient client = server.AcceptTcpClient();
-                    ClientClass user = new ClientClass("127.0.0.1", port);
-                    user.Connect();
 
                     Thread clientThread = new Thread(() => {
                         Byte[] bytes = new Byte[256];

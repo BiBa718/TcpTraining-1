@@ -1,11 +1,18 @@
+using System.Threading;
+using System.Collections.Generic;
+using System;
 using System.Net;
 using System.Net.Sockets;
+using ClientClassNameSpace;
+using System.Collections.Generic;
 
 namespace ListenerNamespace
 {
     public class Listener
     {
+        private bool _isListening;
         private TcpListener _server;
+        private Dictionary<string, ClientClass> _connectedUsers = new Dictionary<string, ClientClass>();
 
         public void Start()
         {
@@ -18,10 +25,57 @@ namespace ListenerNamespace
 
         private void StartWaitingForConnections()
         {
-            while (true)
+            _isListening = true;
+
+            Thread thread = new Thread(() => {
+                while (_isListening)
+                {
+                    TcpClient client = _server.AcceptTcpClient();                      
+                    AddNewConnection(client);    
+                }
+            });
+
+            thread.Start();
+        }
+
+        private void AddNewConnection(TcpClient connection)
+        {
+            ClientClass user = new ClientClass(connection);   
+            user.Connect();
+            user.OnMessageRecieved += (message) => {
+                // base Auth
+                if (message.Contains("Auth:"))
+                {
+                    string userName = message.Split(':')[1];
+                    _connectedUsers.Add(userName, user);
+                    _connectedUsers.Remove(connection.Client.RemoteEndPoint.ToString());
+                }
+
+                if (message.Contains("MessageTo:"))
+                {
+                    string toUser = message.Split(':')[1];
+                    string userMessage = message.Split(':')[2];
+                    _connectedUsers[toUser].SendMessages(userMessage);
+                }
+            };
+            _connectedUsers.Add(connection.Client.RemoteEndPoint.ToString(), user);
+        }
+
+        private void StopWaitingForConnections()
+        {
+            _isListening = false;
+        }
+
+        public void Stop()
+        {
+            StopWaitingForConnections();
+
+            foreach (var connectedUser in _connectedUsers.Values)
             {
-                TcpClient client = _server.AcceptTcpClient();
+                connectedUser.Disconnect();
             }
+
+            _server.Stop();
         }
     }
 }
